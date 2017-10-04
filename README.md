@@ -7,7 +7,8 @@ up a wireless mesh network on a Raspberry Pi 3 very very easy.
 
 Installation
 ============
-To setup the current system to run this mesh software run `sudo chmod +x setup.sh` then `sudo ./setup.sh` in this directory. (This will gather all dependenices and generate config files for future use.)
+To setup the current system to run this mesh software at startup,
+run `sudo chmod +x setup.sh` then `sudo ./setup.sh` in this directory. (This will gather all dependenices and generate config files for future use.)
 
 Usage
 =====

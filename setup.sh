@@ -58,20 +58,6 @@ then
     sudo cp /etc/proto-mesh/config.sample /etc/proto-mesh/config
 fi
 
-# Generate Ethernet Config if Necessary
-if [ ! -f /etc/proto-mesh/channel/.eth/config ]
-then
-    echo "Generating Ethernet Config File ..."
-    sudo cp /etc/proto-mesh/channels/.eth/config.sample /etc/proto-mesh/channels/.eth/config
-fi
-
-# Generate WiFi Config if Necessary
-if [ ! -f /etc/proto-mesh/channel/.wifi/config ]
-then
-    echo "Generating Wifi Config File ..."
-    sudo cp /etc/proto-mesh/channels/.wifi/config.sample  /etc/proto-mesh/channels/.wifi/config
-fi
-
 echo "Installing Pre-Reqs ..."
 
 #Install Required Packages
