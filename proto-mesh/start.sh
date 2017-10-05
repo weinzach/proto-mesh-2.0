@@ -12,6 +12,15 @@ logoArt(){
 	echo ""
 }
 
+function ifup {
+    if [[ ! -d /sys/class/net/${1} ]]; then
+        printf 'No such interface: %s\n' "$1" >&2
+        return 1
+    else
+        [[ $(</sys/class/net/${1}/operstate) == up ]]
+    fi
+}
+
 # Enable the openvswitch kernel module
 modprobe openvswitch
 if [ $? != 0 ]
@@ -43,10 +52,10 @@ ovs-vsctl --no-wait init
 ovs-vswitchd --pidfile --detach
 ovs-vsctl show
 
+sleep 2
+
 echo "Creating Open_vSwitch Interface..."
 #Create Switch Port
-sudo ovs-vsctl del-br br0
-sleep 1
 sudo ovs-vsctl add-br br0
   
 # Load settings
