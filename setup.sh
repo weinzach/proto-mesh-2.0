@@ -80,8 +80,8 @@ requirepackage build-essential
 requirepackage pkg-config
 requirepackage linux-headers-3.10-3-rpi
 
-# Enable the openvswitch kernel module
-modprobe openvswitch
+# Check for presence of OpenvSwitch with a command test
+ovs-vsctl --help > /dev/null
 if [ $? != 0 ]
 then
    echo "Installing OpenvSwitch this may take some time..."
