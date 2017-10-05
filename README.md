@@ -12,10 +12,10 @@ run `sudo chmod +x setup.sh` then `sudo ./setup.sh` in this directory. (This wil
 
 Usage
 =====
-To start running the mesh software, simply execute `sudo sh /etc/proto-mesh/start.sh` 
+To start running the mesh software, simply execute `sudo bash /etc/proto-mesh/start.sh` 
 in this directory (the same directory as this README). If there are other 
 mesh nodes in wireless range, you should now be connected to them. Use 
-`sudo sh /etc/proto-mesh/shutdown.sh` to properly disable your connection to the mesh.
+`sudo bash /etc/proto-mesh/shutdown.sh` to properly disable your connection to the mesh.
 
 
 Configuration
