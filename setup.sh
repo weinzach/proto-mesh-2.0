@@ -60,6 +60,9 @@ fi
 
 echo "Installing Pre-Reqs ..."
 
+#Update Repositories
+sudo apt-get update
+
 #Install Required Packages
 requirepackage python3
 requirepackage ip
