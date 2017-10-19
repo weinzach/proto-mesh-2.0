@@ -21,14 +21,6 @@ function ifup {
     fi
 }
 
-# Enable the openvswitch kernel module
-modprobe openvswitch
-if [ $? != 0 ]
-then
-	echo "OpenvSwitch isn't setup correctly..."
-	echo "Try reinstalling Proto-Mesh 2.0 with the -f flag!"
-	exit
-fi
 
 # Verify that the config file exists
 if [ ! -f /etc/proto-mesh/config ]; then
@@ -40,28 +32,11 @@ logoArt
 
 # Try to kill NetworkManager
 sudo service NetworkManager stop
-
-echo "Starting OpenvSwitch..."
-ovsdb-server --remote=punix:/usr/local/var/run/openvswitch/db.sock \
-                     --remote=db:Open_vSwitch,Open_vSwitch,manager_options \
-                     --private-key=db:Open_vSwitch,SSL,private_key \
-                     --certificate=db:Open_vSwitch,SSL,certificate \
-                     --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert \
-                     --pidfile --detach
-ovs-vsctl --no-wait init
-ovs-vswitchd --pidfile --detach
-ovs-vsctl show
-
-sleep 2
-
-echo "Creating Open_vSwitch Interface..."
-#Create Switch Port
-sudo ovs-vsctl add-br br0
   
 # Load settings
 source /etc/proto-mesh/config
 
-echo "Bonding Interface..."
+echo "Launching Mesh Interface..."
 if [[ $WIFI_MESH = 'yes' ]];
 then
   sudo ip link set down dev $DEFAULT_WIFI_IFACE
@@ -71,21 +46,14 @@ then
   sudo iwconfig $DEFAULT_WIFI_IFACE channel $WIFI_CHANNEL
   sudo iwconfig $DEFAULT_WIFI_IFACE essid $WIFI_ESSID
   ip link set up dev $DEFAULT_WIFI_IFACE
-  sudo ovs-vsctl add-port br0 $DEFAULT_WIFI_IFACE
   sudo ifconfig $DEFAULT_WIFI_IFACE 0 up
-  cd /etc/proto-mesh/utils
-  python3 giveIPv4.py $DEFAULT_WIFI_IFACE br0
-  cd ../
-else
-  sudo ip link set down dev $DEFAULT_ETHERNET_IFACE
-  sudo ifconfig $DEFAULT_ETHERNET_IFACE down
-  sleep 2
-  ip link set up dev $DEFAULT_ETHERNET_IFACE
-  sudo ovs-vsctl add-port br0 $DEFAULT_ETHERNET_IFACE
-  sudo ifconfig $DEFAULT_ETHERNET_IFACE 0 up
-  cd /etc/proto-mesh/utils
-  python3 giveIPv4.py $DEFAULT_ETHERNET_IFACE br0
-  cd ../
+  sudo avahi-autoipd -D wlan0
+  sleep 1
 fi
 
+echo "Starting CJDNS..."
+cd /etc/proto-mesh/cjdns
+sudo ./cjdroute < cjdroute.conf > cjdroute.log
+
+sleep 3
 echo "Proto-Mesh 2.0 is Running!"

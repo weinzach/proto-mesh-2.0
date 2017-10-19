@@ -12,32 +12,22 @@ logoArt(){
 	echo ""
 }
 
-
-FILE="/etc/proto-mesh/"
-# Make sure proto-mesh is not already "installed"
-if [ -d "$FILE" ] && [ "$1" != '-f' ]
-then
-   echo "Proto-Mesh 2.0 is already installed"
-   echo "(Use -f if neccessary)"
-   exit
+# Verify that the config file exists
+if [ ! -f /etc/proto-mesh/config ]; then
+    echo 'config file not present! Aborting.'
+    exit
 fi
 
-if [ "$(whoami)" != "root" ] ; then
-   echo "Please run as root!"
-   exit
-fi
+# Load settings
+. /etc/proto-mesh/config
 
 logoArt
 
-#Prompt to Confirm
-read -p "Which System is being installed: [1] CJDNS [2] OpenFlow (1/2): " CONT
-if [ "$CONT" = "1" ]; then
-  cd cjdns
-  sudo bash setup.sh
-elif [ "$CONT" = "2" ]; then
-  cd openflow
-  sudo bash setup.sh
-else
-  #Report nothing has happened
-  echo "Operation Canceled"
-fi
+echo "Unloading mesh interface ..."
+sudo ifconfig wlan0 0 down
+
+echo "Killing CJDNS Processes ..."
+sudo killall cjdroute
+
+echo "Proto-Mesh 2.0 has been shutdown cleanly!"
+

@@ -12,31 +12,21 @@ logoArt(){
 	echo ""
 }
 
-
-FILE="/etc/proto-mesh/"
-# Make sure proto-mesh is not already "installed"
-if [ -d "$FILE" ] && [ "$1" != '-f' ]
-then
-   echo "Proto-Mesh 2.0 is already installed"
-   echo "(Use -f if neccessary)"
-   exit
-fi
-
 if [ "$(whoami)" != "root" ] ; then
    echo "Please run as root!"
    exit
 fi
 
-logoArt
-
 #Prompt to Confirm
-read -p "Which System is being installed: [1] CJDNS [2] OpenFlow (1/2): " CONT
-if [ "$CONT" = "1" ]; then
-  cd cjdns
-  sudo bash setup.sh
-elif [ "$CONT" = "2" ]; then
-  cd openflow
-  sudo bash setup.sh
+read -p "Are you sure you wish to remove Proto-Mesh 2.0 (Y/n)? " CONT
+if [ "$CONT" = "Y" ]; then
+  logoArt
+  echo "Disabling Proto-Mesh 2.0 Services..."
+  #Uninstall /etc/proto-mesh directory
+  echo "Removing Uncescessary Files..."
+  sudo rm -rf /etc/proto-mesh
+  #Report done
+  echo "Done! Proto-Mesh 2.0 has been removed."
 else
   #Report nothing has happened
   echo "Operation Canceled"
