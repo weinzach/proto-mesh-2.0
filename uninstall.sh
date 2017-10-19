@@ -21,7 +21,7 @@ fi
 read -p "Are you sure you wish to remove Proto-Mesh 2.0 (Y/n)? " CONT
 if [ "$CONT" = "Y" ]; then
 	#Prompt to Confirm
-	read -p "Which System is being installed: [1] CJDNS [2] OpenFlow (1/2): " CONT
+	read -p "Which System is being removed: [1] CJDNS [2] OpenFlow (1/2): " CONT
 	if [ "$CONT" = "1" ]; then
 		cd cjdns
 		sudo bash uninstall.sh
