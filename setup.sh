@@ -29,23 +29,6 @@ fi
 
 logoArt
 
-#Enable and Start Service
-echo "Starting protomesh service..."
-
-#Generate Service File
-sudo cp /etc/proto-mesh/utils/protomesh.service /etc/systemd/system/protomesh.service
-sudo systemctl daemon-reload
-
-#Prompt for Boot
-read -p "Start Proto-Mesh on Boot (Y/n)? " CONT
-CONT=${CONT,,} # tolower
-if [ "$CONT" = "n" ]; then
-  sudo systemctl disable protomesh.service
-else
-  sudo systemctl enable protomesh.service
-fi
-
-
 #Prompt to Confirm
 read -p "Which System is being installed: [1] CJDNS [2] OpenFlow (1/2): " CONT
 if [ "$CONT" = "1" ]; then

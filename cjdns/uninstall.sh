@@ -22,6 +22,16 @@ read -p "Are you sure you wish to remove Proto-Mesh 2.0 (Y/n)? " CONT
 if [ "$CONT" = "Y" ]; then
   logoArt
   echo "Disabling Proto-Mesh 2.0 Services..."
+  
+  #Stop service if running
+  sudo systemctl stop protomesh.service
+  sudo systemctl disable protomesh.service
+  #Remove Service File
+  sudo rm -rf /etc/systemd/system/protomesh.service
+  #Reload Systemctl
+  echo "Reloading Systemctl..."
+  sudo systemctl daemon-reload
+  
   #Uninstall /etc/proto-mesh directory
   echo "Removing Uncescessary Files..."
   sudo rm -rf /etc/proto-mesh

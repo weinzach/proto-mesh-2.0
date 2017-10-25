@@ -56,5 +56,18 @@ echo "Setting Permissions..."
 sudo chmod +x /etc/proto-mesh/start.sh
 sudo chmod +x /etc/proto-mesh/shutdown.sh
 
+#Generate Service File
+sudo cp /etc/proto-mesh/utils/protomesh.service /etc/systemd/system/protomesh.service
+sudo systemctl daemon-reload
+
+#Prompt for Boot
+read -p "Start Proto-Mesh on Boot (Y/n)? " CONT
+CONT=${CONT,,} # tolower
+if [ "$CONT" = "n" ]; then
+  sudo systemctl disable protomesh.service
+else
+  sudo systemctl enable protomesh.service
+fi
+
 echo "Setup Complete!"
 echo "Please Reboot to use Proto-Mesh 2.0 ..."
