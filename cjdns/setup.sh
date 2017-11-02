@@ -50,6 +50,9 @@ cd cjdns
 sudo ./do
 sudo ./cjdroute --genconf >> cjdroute.conf
 
+cd /etc/proto-mesh/
+cd utils
+sudo npm install
 
 #Make Start/Stop Scripts Executable
 echo "Setting Permissions..."
