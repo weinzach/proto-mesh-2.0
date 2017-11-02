@@ -59,7 +59,7 @@ Cjdns.connectWithAdminInfo(function (cjdns) {
                 cjdns.NodeStore_nodeForAddr(node.ip, waitFor(function (err, ret) {
                     if (err) { throw err; }
 					process.stdout.write('\n');
-                    process.stdout.write(node.ip + '@' + ret.result.routeLabel);
+                    process.stdout.write(node.ip);
                 }));
             }).nThen(function (waitFor) {
                 switchLabel = null;
