@@ -8,7 +8,7 @@ ExecStart=/bin/bash /etc/proto-mesh/start.sh
 ExecStop=/bin/bash /etc/proto-mesh/shutdown.sh
 ExecReload=/bin/bash /etc/proto-mesh/shutdown.sh
 ExecReload=/bin/bash /etc/proto-mesh/start.sh
-RemainAfterExit=no
+RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
