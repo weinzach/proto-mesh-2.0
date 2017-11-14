@@ -34,7 +34,6 @@ if [ ! -f /etc/proto-mesh/cjdns/cjdroute.conf ]; then
 	cd cjdns
 	sudo ./cjdroute --genconf >> cjdroute.conf
 	sleep 1
-    exit
 fi
 
 logoArt
