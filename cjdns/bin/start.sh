@@ -22,9 +22,18 @@ function ifup {
 }
 
 
-# Verify that the config file exists
+# Verify that the config files exist
 if [ ! -f /etc/proto-mesh/config ]; then
     echo 'config file not present! Aborting.'
+    exit
+fi
+
+if [ ! -f /etc/proto-mesh/cjdns/cjdroute.conf ]; then
+    echo 'CJDNS Config not present! Configuring...'
+	cd /etc/proto-mesh/
+	cd cjdns
+	sudo ./cjdroute --genconf >> cjdroute.conf
+	sleep 1
     exit
 fi
 
