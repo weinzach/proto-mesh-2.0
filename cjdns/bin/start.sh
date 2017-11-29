@@ -23,14 +23,14 @@ function ifup {
 
 
 # Verify that the config files exist
-if [ ! -f /etc/proto-mesh/config ]; then
+if [ ! -f /opt/proto-mesh/config ]; then
     echo 'config file not present! Aborting.'
     exit
 fi
 
-if [ ! -f /etc/proto-mesh/cjdns/cjdroute.conf ]; then
+if [ ! -f /opt/proto-mesh/cjdns/cjdroute.conf ]; then
     echo 'CJDNS Config not present! Configuring...'
-	cd /etc/proto-mesh/
+	cd /opt/proto-mesh/
 	cd cjdns
 	sudo ./cjdroute --genconf >> cjdroute.conf
 	sleep 1
@@ -42,7 +42,7 @@ logoArt
 sudo service NetworkManager stop
   
 # Load settings
-source /etc/proto-mesh/config
+source /opt/proto-mesh/config
 
 echo "Launching Mesh Interface..."
 if [[ $WIFI_MESH = 'yes' ]];
@@ -60,7 +60,7 @@ then
 fi
 
 echo "Starting CJDNS..."
-cd /etc/proto-mesh/cjdns
+cd /opt/proto-mesh/cjdns
 sudo ./cjdroute < cjdroute.conf > cjdroute.log
 
 sleep 3

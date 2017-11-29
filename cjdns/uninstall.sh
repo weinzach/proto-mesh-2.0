@@ -27,14 +27,14 @@ if [ "$CONT" = "Y" ]; then
   sudo systemctl stop protomesh.service
   sudo systemctl disable protomesh.service
   #Remove Service File
-  sudo rm -rf /etc/systemd/system/protomesh.service
+  sudo rm -rf /opt/systemd/system/protomesh.service
   #Reload Systemctl
   echo "Reloading Systemctl..."
   sudo systemctl daemon-reload
   
-  #Uninstall /etc/proto-mesh directory
+  #Uninstall /opt/proto-mesh directory
   echo "Removing Uncescessary Files..."
-  sudo rm -rf /etc/proto-mesh
+  sudo rm -rf /opt/proto-mesh
   #Report done
   echo "Done! Proto-Mesh 2.0 has been removed."
 else

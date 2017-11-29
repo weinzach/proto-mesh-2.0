@@ -29,15 +29,5 @@ fi
 
 logoArt
 
-#Prompt to Confirm
-read -p "Which System is being installed: [1] CJDNS [2] OpenFlow (1/2): " CONT
-if [ "$CONT" = "1" ]; then
-  cd cjdns
-  sudo bash setup.sh
-elif [ "$CONT" = "2" ]; then
-  cd openflow
-  sudo bash setup.sh
-else
-  #Report nothing has happened
-  echo "Operation Canceled"
-fi
+cd cjdns
+sudo bash setup.sh

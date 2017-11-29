@@ -3,11 +3,11 @@ Description=Manage Protomesh
 
 [Service]
 Type=oneshot
-WorkingDirectory=/etc/proto-mesh/
-ExecStart=/bin/bash /etc/proto-mesh/start.sh
-ExecStop=/bin/bash /etc/proto-mesh/shutdown.sh
-ExecReload=/bin/bash /etc/proto-mesh/shutdown.sh
-ExecReload=/bin/bash /etc/proto-mesh/start.sh
+WorkingDirectory=/opt/proto-mesh/
+ExecStart=/bin/bash /opt/proto-mesh/start.sh
+ExecStop=/bin/bash /opt/proto-mesh/shutdown.sh
+ExecReload=/bin/bash /opt/proto-mesh/shutdown.sh
+ExecReload=/bin/bash /opt/proto-mesh/start.sh
 RemainAfterExit=yes
 
 [Install]

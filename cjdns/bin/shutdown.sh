@@ -13,13 +13,13 @@ logoArt(){
 }
 
 # Verify that the config file exists
-if [ ! -f /etc/proto-mesh/config ]; then
+if [ ! -f /opt/proto-mesh/config ]; then
     echo 'config file not present! Aborting.'
     exit
 fi
 
 # Load settings
-. /etc/proto-mesh/config
+. /opt/proto-mesh/config
 
 logoArt
 

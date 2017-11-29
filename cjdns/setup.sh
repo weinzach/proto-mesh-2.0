@@ -21,13 +21,13 @@ requirepackage(){
 echo "Intiailzing..."
 
 echo "Copying Files..."
-sudo cp -rf bin /etc/proto-mesh
+sudo cp -rf bin /opt/proto-mesh
 
 # Generate Config if Necessary
-if [ ! -f /etc/proto-mesh/config ]
+if [ ! -f /opt/proto-mesh/config ]
 then
     echo "Generating Config File ..."
-    sudo cp /etc/proto-mesh/config.sample /etc/proto-mesh/config
+    sudo cp /opt/proto-mesh/config.sample /opt/proto-mesh/config
 fi
 
 echo "Installing Pre-Reqs ..."
@@ -44,23 +44,23 @@ requirepackage avahi-autoipd
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
-cd /etc/proto-mesh/
+cd /opt/proto-mesh/
 sudo git clone https://github.com/cjdelisle/cjdns.git cjdns
 cd cjdns
 sudo ./do
 sudo ./cjdroute --genconf >> cjdroute.conf
 
-cd /etc/proto-mesh/
+cd /opt/proto-mesh/
 cd utils
 sudo npm install
 
 #Make Start/Stop Scripts Executable
 echo "Setting Permissions..."
-sudo chmod +x /etc/proto-mesh/start.sh
-sudo chmod +x /etc/proto-mesh/shutdown.sh
+sudo chmod +x /opt/proto-mesh/start.sh
+sudo chmod +x /opt/proto-mesh/shutdown.sh
 
 #Generate Service File
-sudo cp /etc/proto-mesh/utils/protomesh.service /etc/systemd/system/protomesh.service
+sudo cp /opt/proto-mesh/utils/protomesh.service /etc/systemd/system/protomesh.service
 sudo systemctl daemon-reload
 
 #Prompt for Boot

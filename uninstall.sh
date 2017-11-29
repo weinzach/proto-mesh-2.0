@@ -17,23 +17,7 @@ if [ "$(whoami)" != "root" ] ; then
    exit
 fi
 
-#Prompt to Confirm
-read -p "Are you sure you wish to remove Proto-Mesh 2.0 (Y/n)? " CONT
-if [ "$CONT" = "Y" ]; then
-	#Prompt to Confirm
-	read -p "Which System is being removed: [1] CJDNS [2] OpenFlow (1/2): " CONT
-	if [ "$CONT" = "1" ]; then
-		cd cjdns
-		sudo bash uninstall.sh
-	elif [ "$CONT" = "2" ]; then
-		cd openflow
-		sudo bash uninstall.sh
-	else
-		#Report nothing has happened
-		echo "Operation Canceled"
-fi
+logoArt
 
-else
-  #Report nothing has happened
-  echo "Operation Canceled"
-fi
+cd cjdns
+sudo bash uninstall.sh
