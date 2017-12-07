@@ -47,6 +47,7 @@ source /opt/proto-mesh/config
 echo "Launching Mesh Interface..."
 if [[ $WIFI_MESH = 'yes' ]];
 then
+  sudo systemctl stop dhcpcd.service
   sudo ip link set down dev $DEFAULT_WIFI_IFACE
   sudo ifconfig $DEFAULT_WIFI_IFACE down
   sleep 2
@@ -57,6 +58,7 @@ then
   sudo ifconfig $DEFAULT_WIFI_IFACE 0 up
   sudo avahi-autoipd -D wlan0
   sleep 1
+  sudo systemctl start dhcpcd.service
 fi
 
 echo "Starting CJDNS..."
