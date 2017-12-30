@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Get board information and set flags accordingly
+BOARD_FAMILY="Raspberry Pi"
+BOARD_NAME="Generic"
+CJDNS_BUILD_CMD="sudo Seccomp_NO=1 NO_NEON=1 ./do"
+BOARD_HARDWARE=$(cat /proc/cpuinfo  | grep Hardware | awk '{print $3}' | head -n 1)
+
 # Verify that some packages are installed
 requirepackage(){
    if [ ! -z "$2" ]
@@ -41,13 +47,43 @@ requirepackage build-essential
 requirepackage avahi-autoipd
 
 #Setup NodeJs 8.x
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get install -y nodejs
+if which nodejs > /dev/null
+	then
+		echo "NodeJS is installed, skipping..."
+    else
+		curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+		sudo apt-get install -y nodejs
+    fi
+
+if which npm > /dev/null
+	then
+		echo "NPM is installed, skipping..."
+    else
+		curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+		sudo apt-get install -y nodejs
+    fi
 
 cd /opt/proto-mesh/
 sudo git clone https://github.com/cjdelisle/cjdns.git cjdns
 cd cjdns
-sudo ./do
+
+BOARD_REVISION=`sed -rn 's/Revision\s+\:\s+([0-9a-z_\-\s\,\(\)]+)/\1/p' /proc/cpuinfo`
+if [[ $BOARD_REVISION == *"900092"* || $BOARD_REVISION == *"900093"* || $BOARD_REVISION == *"9000c1"* ]]; then
+    BOARD_NAME="Zero"
+    CJDNS_BUILD_CMD="sudo Seccomp_NO=1 NO_NEON=1 CFLAGS=\"-s -static -Wall -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard\" ./do"
+elif [[ $BOARD_REVISION == *"00"* ]]; then
+    BOARD_NAME="1"
+    CJDNS_BUILD_CMD="sudo Seccomp_NO=1 NO_NEON=1 NO_TEST=1 CFLAGS=\"-s -static -Wall\" ./do"
+elif [[ $BOARD_REVISION == *"a01041"* || $BOARD_REVISION == *"a21041"* ]]; then
+    BOARD_NAME="2"
+    CJDNS_BUILD_CMD="sudo Seccomp_NO=1 CFLAGS=\"-s -static -Wall -mfpu=neon -mcpu=cortex-a7 -mtune=cortex-a7 -fomit-frame-pointer -marm\" ./do"
+elif [[ $BOARD_REVISION == *"a02082"* || $BOARD_REVISION == *"a22082"* ]]; then
+    BOARD_NAME="3"
+    CJDNS_BUILD_CMD="sudo Seccomp_NO=1 CFLAGS="-s -static -Wall -mfpu=neon -mcpu=cortex-a7 -mtune=cortex-a7 -fomit-frame-pointer -marm" ./do"
+fi
+
+echo -e "\e[1;32mCompiling CJDNS for ${BOARD_FAMILY} ${BOARD_NAME} (${BOARD_REVISION})...\e[0m"
+$CJDNS_BUILD_CMD
 sudo ./cjdroute --genconf >> cjdroute.conf
 
 cd /opt/proto-mesh/
